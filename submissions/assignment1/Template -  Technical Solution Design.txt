@@ -1,0 +1,177 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+Technical Solution Design
+for
+< Project Name >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Version:	V1.0
+Date:		<Date>
+Sponsor:	<Entity Name>
+Author:	<Author>
+
+
+
+
+
+
+
+
+Commercial - in – Confidence
+
+Document Control
+
+
+
+
+Distribution
+Version
+Issued
+Recipient
+Position
+V <Enter No.>
+<Enter Date>
+<Enter Full Name>
+<Enter Position>
+
+
+
+
+
+Amendment History
+Section
+Page
+Version
+Comment
+<Enter Doc.  Section No.>
+<Enter Page No.>
+<Enter Version No.>
+<Enter Comments to explain the reason for the document text or other changes,
+
+e.g., Updated text after walkthrough with the stakeholders, or
+
+e.g., Updated section after technical consultation>
+
+
+
+
+.
+
+Staff or Entities Consulted
+Name
+Position / Organization
+<Enter Name>
+<Enter Position or Organization>
+
+
+Related Documents
+Name
+Author
+Description
+<Enter Document Name>
+<Enter Author>
+<Enter Document Description>
+
+
+
+
+Preface
+
+The purpose of this document is to < Detail the purpose of this document>
+
+Table of Contents
+
+
+                                                                                                                                                                                                                                                                         
+
+1	Introduction	1
+2	Technical Environment	1
+3	Overall Architecture	1
+4	System Architecture	1
+4.1	Functionalities/features	1
+4.1.1	Functionality 1	1
+4.1.2	Functionality 2	1
+4.1.3	.Funcitionality N	1
+5	Database Architecture	1
+6	Implementation Instructions	1
+7	Non-functional specifications	1
+8	Summary of test results	1
+9	Known Issues & Risks	1
+10	Other Considerations	2
+11	Appendix	2
+
+
+    1 Introduction
+<Paragraph summary of the technical solution that was completed including:
+    • Brief project description
+    • Brief description of technical environment
+    • Estimated level of complexity
+    • Estimated benefits/Problems it solved (quantitative & qualitative).>
+
+    2 Technical Environment
+<Detail the technical environment/technologies used to complete this project and reason for the choice of the specific technology that is used.  For instance, if PHP is used, why it is chosen and if GITHUB etc is used for source control please specify those details as well..>
+
+    3 Overall Architecture
+<Outline the overall architecture of the solution which details how the system will interact with the world or other systems etc. Explain it using a diagram.>
+
+    4 System Architecture
+<Detail the system that was built/completed. Explain each component thoroughly. A architecture diagram is essential. > 
+
+        4.1 Functionalities/features 
+<Detail the individual/specific functionalities that comprise the system.>
+            4.1.1 Functionality 1
+<explain each functionality using a flow chart>
+            4.1.2 Functionality 2
+.
+.
+.
+            4.1.3 .Funcitionality N
+
+    5 Database Architecture
+<Explain the database architecture/schema and why it is built in the way it is and how scalable it will be.>
+
+    6 Implementation Instructions
+< List the implementation instructions and the basic specs of the server needed. Also provide details regarding data migration or if its replacing or enhancing an existing system what are the steps needs to take to ensure there is no data loss.>
+ 
+    7 Non-functional specifications
+<Detail all the non-functional specification of the system.> 
+
+    8 Summary of test results
+<Provide the summary of the test cases and results in tabular format.>
+
+    9 Known Issues & Risks
+<Outline any known issues and/or risks that are likely to impact or be caused by this initiative in any way.> 
+
+    10 Other Considerations
+
+<Discuss any other considerations for this project proposal’s acceptance and delivery.>
+
+    11 Appendix
+
+<Refer the tool that is used to capture the functional requirement and if possible provide the references to the tool and also a summary of the functional requirement. It can be simply compilation or copy of the user stories from JIRA/Rally.>
+
+
+<NOTE: These headings are guidelines only. Based on your project, you might require additional headings, so feel free to add headings as required.>

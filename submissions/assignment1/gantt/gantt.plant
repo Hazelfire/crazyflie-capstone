@@ -1,7 +1,41 @@
 @startgantt
-[Prototype design] lasts 10 days
-[Code prototype] lasts 10 days
-[Write tests] lasts 5 days
-[Code prototype] starts at [Prototype design]'s end
-[Write tests] starts at [Code prototype]'s start
+Project starts the 15th of january 2020
+saturday are closed
+sunday are closed
+
+-- Planning and Design Phase --
+[Gantt Chart] lasts 3 days
+[Project Charter] lasts 3 days
+[Technical Design Document] lasts 3 days
+[Risk Assessment] lasts 3 days
+[Safe Work Instruction] lasts 3 days
+
+[Planning Completed] happens at [Gantt Chart]'s end
+
+[Project Charter] -> [Planning Completed]
+[Technical Design Document] -> [Planning Completed]
+[Risk Assessment] -> [Planning Completed]
+[Safe Work Instruction] -> [Planning Completed]
+
+-- Development Phase light grafitti --
+
+[Control LED Module] lasts 1 days
+[Drone positioning] lasts 3 days and starts at [Planning Completed]'s end
+[Fly drone in line] lasts 3 days and starts at [Drone positioning]'s end
+then [Fly drone in SVG path] lasts 3 days
+then [Take light grafitti shot] lasts 1 day
+[Light graffitti completed] happens at [Take light grafitti shot]'s end
+
+[Planning Completed] -> [Control LED Module]
+[Planning Completed] -> [Drone positioning]
+[Control LED Module] -> [Take light grafitti shot]
+
+-- Development Phase, Rosie interaction --
+
+[Control Rosie's hand to position] lasts 3 days and starts at [Light graffitti completed]'s end
+[Land drone on Rosie's Hand] lasts 3 days and starts at [Control Rosie's hand to position]'s end
+
+[Light graffitti completed] -> [Control Rosie's hand to position]
+
+
 @endgantt
