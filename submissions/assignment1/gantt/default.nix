@@ -8,6 +8,6 @@ pkgs.stdenv.mkDerivation {
   '';
   installPhase = ''
     mkdir -p $out
-    cp gantt.plant $out
+    cp gantt.png $out
   '';
 }

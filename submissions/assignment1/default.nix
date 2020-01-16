@@ -7,9 +7,12 @@ in
 pkgs.stdenv.mkDerivation {
   name="capstoneassignment1";
   buildInputs = with pkgs; [zip];
-  unpackPhase = "true";
+  src = ./.;
   buildPhase = ''
-  zip -r submission.zip ${charter}/document.pdf ${technical}/document.pdf ${gantt}/gantt.png
+    cp ${charter}/document.pdf Charter.pdf
+    cp ${technical}/document.pdf TechnicalDesign.pdf
+    cp ${gantt}/gantt.png Gantt.png
+    zip -r submission.zip Charter.pdf TechnicalDesign.pdf Gantt.png AssessmentFormula.txt
   '';
   installPhase = ''
     mkdir -p $out

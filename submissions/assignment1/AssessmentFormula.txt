@@ -1,0 +1,8 @@
+Analysis and design                        25%
+Delivered software                         35%
+Testing                                    05% (Testing is not as applicable to our project, due to the difficulty of testing drone activities)
+Documentation                              15%
+Project planning and management            10%
+Communication with supervisor/coordinator  10%
+(may include presentation) 
+Total                                      100%
