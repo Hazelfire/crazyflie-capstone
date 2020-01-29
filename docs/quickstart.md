@@ -4,20 +4,23 @@ This documentation is meant to get you up and running with the lighthouse positi
 the crazyflie.
 
 Requirements:
+
 Setup:
-  - A computer with Steam VR and a VIVE headset (only for setup)
-  - Git
+
+* A computer with Steam VR and a VIVE headset (only for setup)
+* Git
 
 Flying:
-  - A crazyflie radio
-  - A computer with python 3 and make installed
-  - An Xbox, PS4, etc. controller (for manual flight with position assist)
-  - An HTC vive controller (for flying using the grab example)
+
+* A crazyflie radio
+* A computer with python 3 and make installed
+* An Xbox, PS4, etc. controller (for manual flight with position assist)
+* An HTC vive controller (for flying using the grab example)
 
 ## Setup.
 
 This sets up a crazyflie to a paricular pair of lighthouses. If you want to
-pair the crazyflie to another pair of lighthouses, this phase must be repeated.
+pair the crazyflie to another pair of lighthouses or crazyflie, this phase must be repeated.
 
 ### Finding the origin
 The blank scene provided by SteamVR shows the position of the origin using a series of lines
@@ -32,14 +35,14 @@ headset to it. Open Steam VR on the computer (Steam VR is a tool that can be dow
 from steam).
 
 Navigate to STEAMVR -> Developer -> Developer Settings
-![SteamVR menu](/images/devSettingsPath.png)
+![SteamVR menu](images/devSettingsPath.png)
 
 Place the headset on the ground in the position you want your origin, and the direction that 
 you want your positive X to be. The positive Y will go to the right of the headset
 and positive Z will go up.
 
 Once the headset is placed press 'Quick Calibrate' to set the origin to the new position.
-![Quick Calibrate](/images/quickCalibrate.png)
+![Quick Calibrate](images/quickCalibrate.png)
 
 ### Encoding the position of the lighthouses into the crazyflie firmware
 
@@ -119,49 +122,49 @@ nothing is obstructing the crazyflie's view of the two lighthouses.
 
 Then connect to the crazyflie with the crazyflie client. Make sure that you have
 the Look at the logs of the crazyflie. If you are getting errors such as
-"Estimator out of bounds, resetting" continously or it does not
+"State out of bounds, resetting" continously or it does not
 say that it is ready to fly, then it has not been set up correctly, and we
 recommend that you check through the above steps (particularly commenting out
 `DISABLE_LIGHTHOUSE_DRIVER`). If the drone says it is ready to fly, then continue
 onto the next test.
 
-![Console](/images/console.png)
+![Console](images/console.png)
 
 ### Plotting position data
 The position calculated by the Crazyflie can be plotted by creating a log block within the client.
 
 To create a log block, connect to the Crazyflie, then open the logging configuration window.
 
-![Logging Window Path](/images/logConfigMenu.png)
+![Logging Window Path](images/logConfigMenu.png)
 
 Fill out the window as shown, then save the new log block.
 
-![Log Setup](/images/logSetup.png)
+![Log Setup](images/logSetup.png)
 
 The new log block should now be visible in the plotter tab of the client. (Go to View -> Tabs if the
 plotter tab isn't available)
 
-![Plotter Menu](/images/plotterMenu.png)
+![Plotter Menu](images/plotterMenu.png)
 
 The position of the drone should now be plotted to the screen, try moving it around to check that the
 readings make sense.
 
-![Plotter Example](/images/plotterExample.png)
+![Plotter Example](images/plotterExample.png)
 
 ### Flight assist.
 Place the crazyflie back inside of the play space. On the crazyflie client, set
-the assist mode to position hold. You need a gamepad to fly the drone using the pc client.
+the assist mode to position hold. You need a gamepad (x-box controller) to fly the drone using the pc client.
 
 The client supports multiple types of controllers, to select the correct mapping select the
 Input device -> Device menu, or Configure device mapping to create your own.
 
 Here are the controls to fly a drone in position hold mode. Note 2 important things.
+![Controls](images/controls.png)
 
-1. The controls are absolute and not relative to the direction that the drone
+ 1. The controls are absolute and not relative to the direction that the drone
 is facing. Pushing the thust stick up will move the drone in the positive X no
 matter what the yaw is
-
-2. The drone will only hold it's position if the assist mode button is held
+ 2. The drone will only hold it's position if the assist mode button is held
 down, which is the right bumper on the Xbox controller. Note that these buttons are often the first
 ones to detereiorate on an Xbox controller, so if it is not working, you may
 need to re-map the assist button or press the bumper with more force than you might think.
