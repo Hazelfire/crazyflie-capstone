@@ -9,6 +9,9 @@ let
   pkgs = with nixpkgs; [
     neovim
     cflib
+    libusb
+    python37Packages.pyusb
+    python37Packages.matplotlib
   ];
 
 in

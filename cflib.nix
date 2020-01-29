@@ -14,7 +14,7 @@ in
     src = fetchFromGitHub {
       owner = "bitcraze";
       repo = "crazyflie-lib-python";
-      rev = "${version}";
-      sha256 = "0070frdy18vlkgn86xkf3z54q22j4nai0bq8bkiq6l35kmj7w1gk";
+      rev = "acdcfd005cbd7d6d3ed6e1a41aa6fc54c987ca35";
+      sha256 = "0rw6i1rlrn3fkb9l3ddz0vh9jbblx0dl67n21pm0arcijdqrk31a";
     };
   }
