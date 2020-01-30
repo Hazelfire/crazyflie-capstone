@@ -16,7 +16,7 @@ from cflib.crazyflie.mem import MemoryElement
 from cflib.positioning.position_hl_commander import PositionHlCommander
 
 # URI to the Crazyflie to connect to
-uri = 'radio://0/80/2M'
+uri = 'radio://0/80/2M/A0A0A0A0AA'
 
 print('Opening')
 print('Opened')
