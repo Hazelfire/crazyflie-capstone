@@ -42,6 +42,7 @@ from cflib.crazyflie.swarm import Swarm
 from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.positioning.position_hl_commander import PositionHlCommander
 import math
+import random
 
 
 def wait_for_position_estimator(scf):
@@ -110,7 +111,7 @@ def run_shared_sequence(scf, x, y, z):
     cf = scf.cf
 
     try:
-        box_size = 0.5
+        box_size = 0.1
         
         for i in range(20):
             cf.commander.send_position_setpoint(x * box_size,
@@ -119,10 +120,11 @@ def run_shared_sequence(scf, x, y, z):
                                                 0)
             time.sleep(0.2)
 
-        for i in range(50):
-            cf.commander.send_position_setpoint(x * box_size,
-                                                y * box_size * math.cos(2 * math.pi / 50 * i) + z*box_size * math.sin(2*math.pi / 50 * i),
-                                                -y* box_size * math.sin(2*math.pi / 50 * i) +z * box_size * math.cos(2 * math.pi / 50 * i) + 1,
+        for i in range(200):
+            stability = box_size * math.cos(2 * math.pi / 200 * i)
+            cf.commander.send_position_setpoint(x + (random.random() * stability * 2 - stability),
+                                                y + (random.random() * stability * 2 - stability),
+                                                1 + z + (random.random() * stability * 2 - stability),
                                                 0)
             time.sleep(0.2)
 

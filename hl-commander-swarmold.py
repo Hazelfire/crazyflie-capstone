@@ -107,31 +107,22 @@ def activate_mellinger_controller(scf, use_mellinger):
 def run_shared_sequence(scf, x, y, z):
     print("Running sequence")
     #activate_mellinger_controller(scf, False)
-    cf = scf.cf
 
     try:
         box_size = 0.5
-        
-        for i in range(20):
-            cf.commander.send_position_setpoint(x * box_size,
-                                                y * box_size,
-                                                z * box_size + 1,
-                                                0)
-            time.sleep(0.2)
 
-        for i in range(50):
-            cf.commander.send_position_setpoint(x * box_size,
-                                                y * box_size * math.cos(2 * math.pi / 50 * i) + z*box_size * math.sin(2*math.pi / 50 * i),
-                                                -y* box_size * math.sin(2*math.pi / 50 * i) +z * box_size * math.cos(2 * math.pi / 50 * i) + 1,
-                                                0)
-            time.sleep(0.2)
+        with PositionHlCommander(scf,
+                                 default_velocity=0.1,
+                                 x = x*box_size,
+                                 y = y * box_size,
+                                 default_height = z * box_size + 1,
+                                 z = 0.0) as pc:
 
-        for i in range(20):
             cf.commander.send_position_setpoint(x * box_size,
+
                                                 y * box_size,
-                                                0.1,
+                                                z * box_size,
                                                 0)
-            time.sleep(0.2)
         #    cf.param.set_value('ring.effect', '13')
 
             #set_led_color(cf, [0,0,0])
@@ -139,12 +130,14 @@ def run_shared_sequence(scf, x, y, z):
         #    pc.go_to(0, 0, 1)
 
             #pc.go_to(x * box_size, y * box_size, z * box_size + 1)
+            time.sleep(5)
 
 
     #        set_led_color(cf, [0,0,0])
             #pc.go_to(x * box_size,y * box_size,0.1)
             # Make sure that the last packet leaves before the link is closed
             # since the message queue is not flushed before closing
+            time.sleep(0.1)
     except Exception as e:
         print(e)
 
@@ -162,10 +155,10 @@ positions = {
 }
 
 uris = {
-   URI1,
-#   URI2,
-#   URI3,
-#   URI4
+   # URI1,
+   # URI2,
+   URI3,
+   # URI4
 }
 
 names = {

@@ -4,11 +4,11 @@ let
 
   pythonPackages = python-packages: with python-packages; [pip];
   
-  cflib = nixpkgs.callPackage ./cflib.nix {python=nixpkgs.python3;};
+  cfdemos = nixpkgs.python.pkgs.callPackage ./cfdemos.nix {python=nixpkgs.python3;};
 
   pkgs = with nixpkgs; [
     neovim
-    cflib
+    cfdemos
     libusb
     python37Packages.pyusb
     python37Packages.matplotlib
@@ -17,5 +17,5 @@ let
 in
   nixpkgs.stdenv.mkDerivation {
     name = "env";
-    buildInputs = pkgs;
+    propagatedBuildInputs = pkgs;
   }

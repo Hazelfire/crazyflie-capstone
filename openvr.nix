@@ -7,12 +7,12 @@ let
 
 in
   python.pkgs.buildPythonPackage rec {
-    pname = "cflib";
-    version = "0.1.8";
+    pname = "openvr";
+    version = "1.9.1601";
     buildInputs = [ python.pkgs.pyusb ];
     doCheck = false;
     src = fetchPypi {
       inherit pname version;
-      sha256 = "1h0b6b0nng6f845jrzx7f2dhfir3pngm0dh1hh67cyalw6gahssl";
+      sha256 = "029qn4275vy4s0clsippmdf6cs0p2kmw3x9ybxbr16vm1f92624a";
     };
   }

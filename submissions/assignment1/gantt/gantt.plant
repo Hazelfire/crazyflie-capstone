@@ -19,14 +19,13 @@ sunday are closed
 
 -- Development Phase light grafitti --
 
-[Control LED Module] lasts 1 days
-[Drone positioning] lasts 3 days and starts at [Planning Completed]'s end
+[Control LED Module] lasts 1 days and starts at [Planning Completed]'s start
+[Drone positioning] lasts 3 days and starts at [Planning Completed]'s start
 [Fly drone in line] lasts 3 days and starts at [Drone positioning]'s end
 then [Fly drone in SVG path] lasts 3 days
 then [Take light grafitti shot] lasts 1 day
 [Light graffitti completed] happens at [Take light grafitti shot]'s end
 
-[Planning Completed] -> [Control LED Module]
 [Planning Completed] -> [Drone positioning]
 [Control LED Module] -> [Take light grafitti shot]
 
