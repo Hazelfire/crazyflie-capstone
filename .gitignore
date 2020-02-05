@@ -1,3 +1,5 @@
 todo
 pictures
 cache
+__pycache__
+*.egg-info
