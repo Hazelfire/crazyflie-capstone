@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+Author: Sam Nolan
 This demonstration shows using matplotlib to graph the distance between two
 VIVE Trackers.
 
@@ -12,6 +13,7 @@ will happen when you press "fly" on the interface
 It also requires having matplotlib installed:
 pip3 install --user matplotlib
 """
+
 import sys
 import time
 import math
@@ -24,14 +26,15 @@ from cflib.crazyflie.log import LogConfig
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.positioning.position_hl_commander import PositionHlCommander
-from ..utils import wait_for_position_estimator, reset_estimator
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.widgets import Button
 from matplotlib import style
+from cflib.crazyflie.console import Console
+from cfdemos.util import print_errors, wait_for_position_estimator, reset_estimator, start_console, check_battery
 
-
+    
 
 # URI to the Crazyflie to connect to
 uri = 'radio://0/80/2M/A0A0A0A0AA'
@@ -96,11 +99,19 @@ high = 2
 low = 0
 
 def change_fly(event):
+    """
+    What happens when you press the fly button on the matplotlib interface.
+
+    This button toggles flying. If pressed while still flying it turns lands
+    the drone and turns off
+    """
    
     global flying, scf
     scf = SyncCrazyflie(uri, cf=Crazyflie(rw_cache='./cache'))
     scf.open_link()
     reset_estimator(scf)
+    check_battery(scf, "Drone")
+    start_console(scf, "Drone")
     flying = not flying
     if not flying and scf:
         scf.cf.commander.send_position_setpoint(0,
@@ -109,6 +120,9 @@ def change_fly(event):
                                                 0)
 
 def animate(i):
+    """
+    The clock method of matplotlib
+    """
     poses = vr.getDeviceToAbsoluteTrackingPose(
             openvr.TrackingUniverseStanding, 0,
             openvr.k_unMaxTrackedDeviceCount)
@@ -133,11 +147,15 @@ def animate(i):
         ys.append(average)
         ax1.clear()
         ax1.plot(xs, ys)
+        lowest_point = 0.5
+        highest_point = 1.5
+        percentage = max(min((average - low ) / (high - low), 1), 0)
+        fly_height = lowest_point + percentage
         if flying and scf:
           
             scf.cf.commander.send_position_setpoint(0,
                                                     0,
-                                                    average,
+                                                    fly_height,
                                                     0)      
     ax1.set_ylim((low, high))
 
