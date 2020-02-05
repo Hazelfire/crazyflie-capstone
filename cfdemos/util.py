@@ -6,6 +6,7 @@ from cflib.crazyflie.log import LogConfig
 from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.crazyflie.console import Console
 import time
+import math
 
 import cflib.crtp
 
@@ -172,3 +173,8 @@ def check_battery(scf, name):
               print(name + ": Battery too low")
               return False
 
+def distance(x, y):
+    """
+    Finds the euclidiean distance between two lists x and y
+    """
+    return math.sqrt(sum([(p - q) ** 2 for p,q in zip(x,y)]))

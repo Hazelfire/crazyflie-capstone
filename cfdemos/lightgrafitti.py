@@ -16,7 +16,7 @@ specified, then fly back down to land.
 Unlike the other demonstrations, this demo must be run with an argument indicating
 the obj file that you want the drone to fly in, like
 
-./pathfind.py RMIT.obj
+./lightgrafitti.py RMIT.obj
 """
 import sys
 import time
@@ -30,10 +30,10 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.crazyflie.mem import MemoryElement
 from cflib.positioning.position_hl_commander import PositionHlCommander
-from ..utils import wait_for_position_estimator, reset_estimator
+from cfdemos.util import wait_for_position_estimator, reset_estimator
 
 # URI to the Crazyflie to connect to
-uri = 'radio://0/80/2M/A0A0A0A0AA'
+uri = 'radio://0/80/2M/A0A0A0A0AB'
 
 def get_path():
     """
@@ -51,6 +51,8 @@ def get_path():
 
     :return: returns an list of 3 dimensional points (represented as lists of size 3)
     """
+    if len(sys.argv) < 2:
+        sys.exit("Argument required (obj flight path)")
     path = sys.argv[1]
     contents = open(path, "r").readlines()
     vertices = [line for line in contents if line.startswith("v ")]
@@ -74,6 +76,7 @@ def set_led_color(cf, color):
             mem[0].leds[i].set(r=color[0], g=color[1], b=color[2])
         mem[0].write_data(None)
 
+path = get_path()
 
 def run_sequence(scf):
     """
@@ -81,7 +84,6 @@ def run_sequence(scf):
     """
     cf = scf.cf
     with PositionHlCommander(scf, default_velocity=0.1) as pc:
-        path = get_path()
         cf.param.set_value('ring.effect', '13')
         # Starts with all the LEDs off
         set_led_color(cf, [0,0,0])
@@ -103,8 +105,6 @@ def run_sequence(scf):
         # since the message queue is not flushed before closing
         time.sleep(0.1)
 
-
-print(get_path())
 
 if __name__ == '__main__':
     cflib.crtp.init_drivers(enable_debug_driver=False)

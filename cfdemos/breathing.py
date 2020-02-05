@@ -138,8 +138,9 @@ def animate(i):
         time_series_smooth.append(distance(pos1, pos2))
         
         average = sum(time_series_smooth) / len(time_series_smooth)
-            
-        if len(xs) > 20:
+           
+        # 100 divided by 10 is the amount of time it shows on the plotter, and the amount of time it takes to calibrate
+        if len(xs) > 100:
             xs.pop(0)
             ys.pop(0)
         
@@ -149,6 +150,8 @@ def animate(i):
         ax1.plot(xs, ys)
         lowest_point = 0.5
         highest_point = 1.5
+        low = min(ys)
+        high = max(ys) + 0.0001
         percentage = max(min((average - low ) / (high - low), 1), 0)
         fly_height = lowest_point + percentage
         if flying and scf:
@@ -157,16 +160,8 @@ def animate(i):
                                                     0,
                                                     fly_height,
                                                     0)      
-    ax1.set_ylim((low, high))
+        ax1.set_ylim((low, high))
 
-    
-def set_high(event):
-    global high
-    high = time_series_smooth[-1]
-    
-def set_low(event):
-    global low
-    low = time_series_smooth[-1]
     
 print("Starting")
 if __name__ == '__main__':
@@ -179,14 +174,8 @@ if __name__ == '__main__':
     scf = None
     ani = animation.FuncAnimation(fig, animate, interval=100)
     axfly = plt.axes([0.7, 0, 0.1, 0.075])
-    axlow = plt.axes([0.75, 0, 0.1, 0.075])
-    axhigh = plt.axes([0.8, 0, 0.1, 0.075])
     bfly = Button(axfly, 'Fly')
-    bhigh = Button(axhigh, 'High')
-    blow = Button(axlow, 'Low')
     bfly.on_clicked(change_fly)
-    bhigh.on_clicked(set_high)
-    blow.on_clicked(set_low)
     
     plt.show()
     openvr.shutdown()
