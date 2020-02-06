@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 This demonstration looks for two VIVE trackers and gets the drone to fly
-halfway a little above halfway between the two.
+a little above halfway between the two.
 
 It uses the low level commander, and requires SteamVR to be running
 """
@@ -80,7 +80,11 @@ def run_sequence(scf):
 
         pos1 = get_tracker_pos(tracker1)
         pos2 = get_tracker_pos(tracker2)
-        setpoint = [(pos1[0] + pos2[0]) / 2,(pos1[1] + pos2[1]) / 2,(pos1[2] + pos2[2]) / 2 + height_above_center]
+        
+        x = (pos1[0] + pos2[0]) / 2
+        y = (pos1[1] + pos2[1]) / 2
+        z = (pos1[2] + pos2[2]) / 2 + height_above_center
+        setpoint = [x, y, z]
         
         scf.cf.commander.send_position_setpoint(setpoint[0], setpoint[1], setpoint[2], 0)
         
