@@ -43,6 +43,42 @@ from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.positioning.position_hl_commander import PositionHlCommander
 import math
 
+from ..midLevelCommander import MidLevelCommander
+
+def print_errors(func):
+    """
+    This function is neccesary even though it really shouldn't be.
+
+    There are two functions for running code on multiple drones, parallel and
+    parallel_safe. You should ALWAYS use parallel_safe.
+
+    All that parallel does is run parallel_safe but catches any errors that occur
+    and ignores them. And this is ALL errors, even errors in your code that you
+    should know about and fix.
+    
+    parallel_safe instead throws the errors (which is good). However, it never
+    actually prints what the error is, so this function wraps any other function
+    so that it actually prints the errors that occured.
+
+    use like the following:
+    swarm.parallel_safe(print_errors(start_console), args_dict=names)
+
+    or, equivalently, using python decorator syntax:
+    
+    @print_errors
+    def start_console(scf, x, y, z)
+
+    All functions called with scf in this file are decorated this way
+
+    """
+
+    def wraps(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(e)
+            raise e
+    return wraps
 
 def wait_for_position_estimator(scf):
     print('Waiting for estimator to find position...')
@@ -96,6 +132,9 @@ def reset_estimator(scf):
 def activate_high_level_commander(scf):
     scf.cf.param.set_value('commander.enHighLevel', '1')
 
+@print_errors
+def activate_mid_level_commander(scf):
+    MidLevelCommander(scf)
 
 def activate_mellinger_controller(scf, use_mellinger):
     controller = 1
@@ -170,7 +209,7 @@ uris = {
 }
 
 names = {
-  URI1: ["Alice"],
+    URI1: ["Alice"],
 }
 
 def start_console(scf, name):
@@ -187,7 +226,7 @@ def start_console(scf, name):
         print(e)
 
 def start_battery(scf, name ):
-    print("Cecking battery")
+    print("Chcking battery")
 
     log_config = LogConfig(name = 'Battery', period_in_ms=500)
     log_config.add_variable('pm.vbat', 'float')
@@ -205,8 +244,6 @@ if __name__ == '__main__':
     cflib.crtp.init_drivers(enable_debug_driver=False)
     factory = CachedCfFactory(rw_cache='./cache')
     with Swarm(uris, factory=factory) as swarm:
-        #swarm.parallel_safe(activate_high_level_commander)
-        swarm.parallel_safe(start_console, args_dict=names)
-        swarm.parallel_safe(start_battery, args_dict=names)
+        swarm.parallel_safe(activate_mid_level_commander)
         swarm.parallel_safe(reset_estimator)
         swarm.parallel_safe(run_shared_sequence)
