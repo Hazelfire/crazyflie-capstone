@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 This demonstration looks for two VIVE trackers and gets the drone to fly
-halfway between the two.
+a little above halfway between the two.
 
-It uses the high level commander, and requires SteamVR to be running
+It uses the low level commander, and requires SteamVR to be running
 """
 
 import sys
@@ -20,7 +20,7 @@ from cflib.positioning.position_hl_commander import PositionHlCommander
 from cfdemos.util import wait_for_position_estimator, reset_estimator
 
 # URI to the Crazyflie to connect to
-uri = 'radio://0/80/2M/A0A0A0A0AB'
+uri = 'radio://0/80/2M/A0A0A0A0AA'
 
 
 vr = openvr.init(openvr.VRApplication_Other)
@@ -71,24 +71,24 @@ def run_sequence(scf):
     Flies to the midpoint of the two controller's
     """
     cf = scf.cf
-    with PositionHlCommander(
-                scf,
-                default_velocity=2,
-                default_height=0.5) as pc:
-        while True:
-                    
-            poses = vr.getDeviceToAbsoluteTrackingPose(
-                openvr.TrackingUniverseStanding, 0,
-                openvr.k_unMaxTrackedDeviceCount)
+    height_above_center = 0.1
+    while True:
+                
+        poses = vr.getDeviceToAbsoluteTrackingPose(
+            openvr.TrackingUniverseStanding, 0,
+            openvr.k_unMaxTrackedDeviceCount)
 
-            pos1 = get_tracker_pos(tracker1)
-            pos2 = get_tracker_pos(tracker2)
-            setpoint = [(pos1[0] + pos2[0]) / 2,(pos1[1] + pos2[1]) / 2,(pos1[2] + pos2[2]) / 2]
-            
-            pc.go_to(setpoint[0],
-                     setpoint[1],
-                     setpoint[2])
-        pc.go_to(0.0, 0.0, 0.0)
+        pos1 = get_tracker_pos(tracker1)
+        pos2 = get_tracker_pos(tracker2)
+        
+        x = (pos1[0] + pos2[0]) / 2
+        y = (pos1[1] + pos2[1]) / 2
+        z = (pos1[2] + pos2[2]) / 2 + height_above_center
+        setpoint = [x, y, z]
+        
+        scf.cf.commander.send_position_setpoint(setpoint[0], setpoint[1], setpoint[2], 0)
+        
+    pc.go_to(0.0, 0.0, 0.0)
 
     # Make sure that the last packet leaves before the link is closed
     # since the message queue is not flushed before closing
