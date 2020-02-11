@@ -1,0 +1,205 @@
+\documentclass{article}
+\author{Sam Nolan and Michael Smith}
+\title{Project Mini Drone Charter}
+
+\begin{document}
+  \maketitle
+
+  \section{Introduction}
+  \subsection{Brief project description}
+  The project is to utilise a small group of nano-quadcopters in conjunction with the VIVE lighthouse indoor positioning system. 
+  
+  The main purpose of this project is to provide the PhD researcher Joseph La Delfa
+  with tutorials and demonstrations with how to use the VIVE positioning system
+  with the crazyflie drones.
+
+  This makes the main deliverable both
+  \begin{itemize}
+      \item A handover where the ability to use the lighthouse system is transferred to Joseph
+      \item A python package containing demos and documentation to set up a lighthouse system
+  \end{itemize}
+
+  \subsection{Brief description of technical environment}
+  4 Bitcraze Crazyflie drones, controlled by Python scripts and a crazyflie radio.
+  As well as lighthouse posititioning modules provided by the VX Labs.
+
+  For some demonstrations, a VR headset, controllers and VIVE trackers are required.
+  as well as a computer running steamVR. Exact specifications are in the quickstart.md
+  of the project.
+
+  \subsection{Level of complexity}
+  The main source of complexity for this project was working with the quite volatile
+  drones, and creating mechanisms to ensure the safety of the drones and the people
+  around them, as well as working to improve the accuracy of the drones for use
+  in particular use cases.
+
+  This project has a moderate level of difficulty.
+
+  \subsection{Problems it solved}
+   
+  This project's main problem solved is allowing the use of lighthouse systems
+  to be used within Joseph's PhD with Drone Chi, as an improvement over the current
+  Motion capture systems.
+
+  This project will also benefit the VX labs by providing promotional material to encourage other
+  students to complete projects there. The promotional material will be in the form of light
+  paintings, photography and videos that demonstrate the capabilities of the lab.
+
+  \section {Technical Environment}
+
+  The hardware environment will be using:
+  4x Bitcraze Crazyflie
+  2x lighthouse positioning modules (for VIVE)
+  4x Lighthouse deck for Crazyflie 
+  4x LED deck for Crazyflie 
+  1x Baxter robot (Rosie)
+  1x HTC Vive Headset
+  1x HTC Vive controller
+  2x HTC Vive tracker
+
+  Various accessories such as chargers, batteries, propellers, controllers, dongles etc.
+
+  These items were chosen due to availability within the lab.
+
+  Software environment is:
+
+  Python as the main programming language. Chosen because this is the language
+  that the drone control libraries were written in and has the most support
+  for the project.
+   
+  GitHub as source control, because Git is a fantastic source control tool that's
+  lightweight and the industry standard.
+
+  Blender is a powerful open source 3D graphics program that is used to create
+  the paths that the drones fly in.
+
+  \section {Overall Architecture}
+  The overall architecture contains a computer that has python and the demonstration
+  library installed, which is connected to a crazyflie radio dongle.
+
+  That crazyflie radio dongle connects to the drone. Then the demontstration
+  scripts send commands to the crazyflie for it to follow for a particular
+  demonstration.
+
+  A lighthouse deck is installed on the crazyflie that allows it to receive
+  signals from the two HTC Vive ligthouses. From these signals it is able
+  to determine where it is in 3D space.
+
+  For some demonstrations, a LED deck is also installed on the drone, to have
+  it light up as per the program.
+
+  For other demonstrations, HTC Vive trackers or controllers + a HTC Vive headset
+  must be connected to the computer running the demonstration to use them.
+
+  \section {System architecture}
+  The system is a python package with clear documentation about how to use each
+  demo. 
+
+  \subsection {Functionalities}
+
+  The following demonstrations are compiled within the package:
+
+  \subsubsection{Grab demo}
+  We take no credit for the grab demo. It is written as an example in the cflib
+  library put we reproduce it here for demonstrational purposes.
+
+  This demonstration requires one VIVE controller, and works by having a drone hover
+  above the controller. The user can then use the controller to "drag" around the
+  drone by holding the back trigger.
+
+  \subsubsection{Light grafitti}
+  The light grafitti demo shows the ability for the drones to use the lighthouse
+  decks to position themselves accurately in 3D space.
+
+  Given an OBJ file, the drone will start at one of the edges and draw the 
+  shape with it's LED ring on. Then turn the LED ring off once it is done drawing
+  the image.
+  
+  If taken with a long exposure camera, this creates what is called "Light Grafitti"
+  Where the light shows up as a large streak, allowing the ability to draw different
+  shapes in the air.
+
+  \subsubsection{Drone fly between trackers}
+  This simple demonstration has the drones flying just above the midpoint of two
+  connected VIVE trackers, and was done to mimic Joseph's work that he does with
+  motion capture.
+
+  \subsubsection{Heartbeat}
+  This demonstration hovers the drone, then has the drone quiver in way that 
+  is meant to represent the lub-dub of the heart. This demonstration is for
+  the purpose of showing how the user's heartbeat could be represented in the
+  drone.
+
+  \subsubsection{Yaw spinning}
+  This demonstration has the drone fly up and follow an anticlockwise path
+  while rotating itself clockwise.
+
+  This has the purpose of demonstrating that the drones still remain stable
+  even while rotating on their yaw.
+
+  \subsubsection{Tetrahedron}
+  This demonstration connects to 4 drones, and has them fly in a tetrahedron
+  shape. Then the tetrahedron rotates in 3D space and comes back down to land.
+
+  This demonstrates the ability for the positioning system to work effectively
+  while flying multiple drones at the same time.
+
+  \subsubsection{Breath tracking}
+  This demonstration demonstrates the ability for the VIVE trackers to measure
+  a user's breath. It uses matplotlib to graph the user's breath over time and
+  allows flying a drone with it's altitude mapped to your breath.
+
+  This demonstration has the purpose of showing how the VIVE trackers can be
+  used for high precision positioning, and how it can increase the bandwidth
+  between the users and the drones.
+
+  \subsubsection{Tetrahedron breath}
+  This demonstration is a mixture of the tetrahedron and breath tracking. Where
+  the breath is mapped to the distance between the drones. It has the same
+  purpose as both of the other functionalities.
+
+  \subsubsection{Drone Tracking}
+
+  \subsubsection{Utilities and mid level commander}
+  The library contains utilities for working with the drones and the vr equipment.
+
+  One notable utility is the mid level commander, which is an improvement over
+  the high level commander with features like tracking the console messages
+  and tracking whether the battery is too low and coming to land if it is.
+  
+  \section {Database Architecture}
+
+  Not applicable, no databases used
+
+  \section {Implementation Instructions}
+  
+  \section {Non-functional specifications}
+  \section {Summary of test results}
+  Tests:
+    - One for each demonstration (with videos)
+    - 3 for lighthouse demo (heart, VX Labs)
+  \section {Known Issues and Risks}
+
+  The system has some issues. All of these issues are hardware issues, and were
+  outside of our scope to fix.
+
+  Notably, if a user gets inbetween a lighthouse
+  and the drone, the drone in known to drift from it's position.
+
+  This may be fixed by the open source community as they are developing capabilities
+  to have accurate tracking using only one lighthouse system.
+
+  Furthermore, sometimes the dongle's will loose connection after roughly 5 seconds
+  of flight, which can usually be fixed by changing over the dongle.
+
+  Also, the drones cannot fly too far from the play space or they will again
+  drift due to not being seen by one of the lighthouses.
+
+  Sometimes the drone's lighthouse deck will not initialise. This can be fixed
+  with a restart of the drone.
+
+  Known Risks are outlined in our Risk Assessment and safe work instruction.
+
+  \section {Other considerations}
+  
+\end{document}
