@@ -43,7 +43,7 @@ from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.positioning.position_hl_commander import PositionHlCommander
 import math
 
-from ..midLevelCommander import MidLevelCommander
+from cfdemos.midLevelCommander import MidLevelCommander
 
 def print_errors(func):
     """
@@ -246,4 +246,4 @@ if __name__ == '__main__':
     with Swarm(uris, factory=factory) as swarm:
         swarm.parallel_safe(activate_mid_level_commander)
         swarm.parallel_safe(reset_estimator)
-        swarm.parallel_safe(run_shared_sequence)
+        #swarm.parallel_safe(run_shared_sequence)

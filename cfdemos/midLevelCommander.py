@@ -44,9 +44,12 @@ def print_errors(func):
     return wraps
 
 class MidLevelCommander():
+    @print_errors
     def __init__(self, crazyflie=None, name="Crazyflie"):
 
         self.cf = crazyflie
+        self.is_battery_low = False
+        self.low_battery_threshold = 3.4
 
         if not crazyflie:
             self.cf = Crazyflie()
@@ -56,13 +59,15 @@ class MidLevelCommander():
 
         self.name = name
         
-        if not self.check_initial_battery(self.cf, self.name):
+        if not self.check_battery():
+            self.low_battery = True
             raise LowBatteryException
 
-        self.start_console(self.cf, self.name)
+        self.start_console()
+        self.start_battery_monitoring()
 
     @print_errors
-    def start_console(self, cf, name):
+    def start_console(self):
         """
         Logs console messages sent by the drone
 
@@ -72,20 +77,51 @@ class MidLevelCommander():
         :param scf: SyncCrazyflie object
         :param name: name of the drone to prepend to every log
         """
-        console = Console(cf)
+        console = Console(self.cf)
 
         def incoming(message):
-            print(name + ": " + message)
+            print(self.name + ": " + message)
 
         console.receivedChar.add_callback(incoming)
 
     @print_errors
-    def check_initial_battery(self, cf, name):
+    def start_battery_monitoring(self):
+        log_conf = LogConfig(name='Battery', period_in_ms=500)
+        log_conf.add_variable('pm.vbat', 'float')
+
+        self.cf.log.add_config(log_conf)
+        log_conf.data_received_cb.add_callback(self.battery_callback)
+        log_conf.start()
+
+    @print_errors
+    def battery_callback(self, timestamp, data, logconf):
+        voltage = data['pm.vbat']
+
+        if voltage <= self.low_battery_threshold:
+            self.is_battery_low = True
+
+            position = get_current_position()
+            self.cf.commander.send_position_setpoint(position.x,
+                                                     position.y,
+                                                     0,
+                                                     0)
+
+            print(self.name + ": Battery low, landing")
+
+    @print_errors
+    def get_current_position(self):
+        pass
+
+    @print_errors
+    def goto(self, x, y, z, yaw):
+        if not self.is_battery_low:
+            self.cf.commander.send_position_setpoint(x, y, z, yaw)
+
+    @print_errors
+    def check_battery(self):
         """
           Checks the battery level. If the battery is too low, it prints an error
           and returns false, otherwise it returns true.
-
-          Too low is considered to be 3.4 volts
 
           :param scf: SyncCrazyflie object
           :param name: The "Name" for logging
@@ -95,14 +131,14 @@ class MidLevelCommander():
         log_config = LogConfig(name = 'Battery', period_in_ms=500)
         log_config.add_variable('pm.vbat', 'float')
 
-        with SyncLogger(cf, log_config) as logger:
+        with SyncLogger(self.cf, log_config) as logger:
           for log_entry in logger:
-              print(name + ": battery at " + str(log_entry[1]['pm.vbat']))
-              if log_entry[1]['pm.vbat'] > 3.4:
-                  print(name + ": Battery at good level")
+              print(self.name + ": battery at " + str(log_entry[1]['pm.vbat']))
+              if log_entry[1]['pm.vbat'] > self.low_battery_threshold:
+                  print(self.name + ": Battery at good level")
                   return True
               else:
-                  print(name + ": Battery too low")
+                  print(self.name + ": Battery too low")
                   return False
 
 class LowBatteryException(Exception):
